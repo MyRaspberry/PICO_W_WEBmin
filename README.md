@@ -10,8 +10,8 @@ http://kll.byethost7.com/kllfusion01/infusions/articles/articles.php?article_id=
 * only /lib/adafruit_httpserver/
 * use fix IP:PORT http://192.168.1.215:1234
 * html.Server with server.poll() in a 1 sec loop ( timing problems in MAIN ) serve
-** dynamic index.html ( all in code.py )
-** static /static/about.html
+* * dynamic index.html ( all in code.py )
+* * static /static/about.html
 * serve a favicon
 * styling example
 * use gc.mem_free to check
