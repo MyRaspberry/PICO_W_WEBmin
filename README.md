@@ -18,4 +18,6 @@ http://kll.byethost7.com/kllfusion01/infusions/articles/articles.php?article_id=
 * use a settings.toml
 * add a empty 1 min loop
 
+as mem situation much better in CP829
+put CP9xx on hold
 
