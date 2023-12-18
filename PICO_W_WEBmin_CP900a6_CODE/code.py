@@ -13,12 +13,18 @@ here check on PICO W mem_free because of current issues of THIS CP900a6
 also minimalistic use a dynamic html page to serve
 
 v1.0.1 add a static "/static/about.html"
+
+change from CP900a6 to CP829 / mem startup much better,
+but at web page call mem rundown and recover
+so we prepare and test gc.collect
 '''
 
 import gc # ______________________________________________ micropython garbage collection # use gc.mem_free() # use gc.collect()
 Imp=(f"\nFREE MEM report after imports\n+ import gc {gc.mem_free()}\n")
 import os
 Imp+=(f"+ import os {gc.mem_free()}\n")
+import microcontroller # _________________________________ for reboot
+Imp+=(f"+ import microcontroller {gc.mem_free()}\n")
 import time  # ___________________________________________ we use time.monotonic aka seconds in float
 Imp+=(f"+ import time {gc.mem_free()}\n")
 import socketpool
@@ -30,9 +36,12 @@ Imp+=(f"+ import wifi {gc.mem_free()}\n")
 from adafruit_httpserver import Server, Request, Response, # Redirect, GET, POST # , Websocket
 Imp+=(f"+ from adafruit_httpserver import Server, Request, Response {gc.mem_free()}\n")
 
+
 DIAG = bool(os.getenv('DIAG')) # _________________________ change DIAG print in 'settings.toml' 1 0 and reload to board
 if ( DIAG ) : print(Imp)
 del Imp # ________________________________________________ variable needed for boot only
+
+use_COLLECT = True
 
 THIS_REVISION = os.getenv('THIS_REVISION')
 THIS_OS = os.getenv('THIS_OS')
@@ -85,6 +94,7 @@ server = Server(pool, "/static") # _______________________ use later and use POR
 
 @server.route("/")
 def base(request: Request): # ____________________________ Serve a dynamic text message.
+    if use_COLLECT : gc.collect()
     return Response(request, HTML_INDEX.format(
                 REFRESH=REFRESH,
                 I_AM=I_AM,
@@ -95,6 +105,7 @@ def base(request: Request): # ____________________________ Serve a dynamic text 
 
 @server.route("/about")
 def about(request: Request): # ____________________________ Serve a static HTML file
+    if use_COLLECT : gc.collect()
     return FileResponse(request, "about.html") # __________ at /static/about.html
 
 print(f"www Listening on http://{str(wifi.radio.ipv4_address)}:{PORT} " )
@@ -102,6 +113,7 @@ print(f"www Listening on http://{str(wifi.radio.ipv4_address)}:{PORT} " )
 #server.serve_forever(str(wifi.radio.ipv4_address))
 server.start(host=str(wifi.radio.ipv4_address),port=PORT) # _ startup the server
 if DIAG : print(f"+ server.start {gc.mem_free()} ")
+if use_COLLECT : gc.collect()
 
 check_last1 = time.monotonic() # _________________________ init CPU seconds in float
 dt1 = 1.0 # sec
@@ -120,11 +132,13 @@ while True:  # ___________________________________________ MAIN
             else:
                 print(f"\n{ret}")
                 if DIAG : print(f"free1: {gc.mem_free()}")
+            if use_COLLECT : gc.collect()
 
         if ( check_last2 + dt2 <= time.monotonic() ) : # ___ make non blocking 1 min timer loop
             check_last2 += dt2 # ___________________________ this does not add up timing errors
             print("job2") # ________________________________ the 1 min JOB
             if DIAG : print(f"free2: {gc.mem_free()}")
+            if use_COLLECT : gc.collect()
 
     except OSError:
         print("ERROR server poll")
