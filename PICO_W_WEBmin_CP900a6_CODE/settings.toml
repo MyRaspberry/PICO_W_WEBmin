@@ -1,0 +1,14 @@
+# 16.12.2023 V1.0.0 : CP900a6
+# 18.12.2023 V1.0.1 :static about.html
+
+DIAG=1  # __________________________________________ global print diagnostic on off
+THIS_REVISION = " 1.0.1"
+THIS_OS = " CP900a6"
+# __________________________________________________ LAN WIFI
+WIFI_SSID = "___SSID___"
+WIFI_PASSWORD = "___PASS___"
+WIFI_IP = "192.168.1.215" # ________________________ LOCAL WEB SERVER & 'data'
+PORT = 1234
+# __________________________________________________ LOCATION TIME ZONE
+useNTP = 1 # _______________________________________ try NTP to RTC update
+TZ_OFFSET = 7 # ____________________________________ LOCATION TIME ZONE
