@@ -12,8 +12,8 @@ http://kll.byethost7.com/kllfusion01/infusions/articles/articles.php?article_id=
 * html.Server with server.poll() in a 1 sec loop ( timing problems in MAIN ) serve
 * * dynamic index.html ( all in code.py )
 * * static /static/about.html
-* serve a favicon
-* styling example
+* * serve a favicon
+* simple styling example
 * use gc.mem_free to check
 * use a settings.toml
 * add a empty 1 min loop
