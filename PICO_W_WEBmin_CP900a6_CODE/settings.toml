@@ -1,14 +1,13 @@
 # 16.12.2023 V1.0.0 : CP900a6
 # 18.12.2023 V1.0.1 :static about.html
 
-DIAG=1  # __________________________________________ global print diagnostic on off
-THIS_REVISION = " 1.0.1"
-THIS_OS = " CP900a6"
+DIAG=1  # __________________________________________ global print memory diagnostic on off
+useCOLLECT=1 # _____________________________________ clean after httpServer actions
+
+THIS_REVISION = " 1.0.2"
+THIS_OS = " CP829" # _______________________________ run on CP900a6-2, but low mem
 # __________________________________________________ LAN WIFI
-WIFI_SSID = "___SSID___"
-WIFI_PASSWORD = "___PASS___"
+WIFI_SSID = "kll-wlan_2.4G"
+WIFI_PASSWORD = "WELOVEKOH-SAMUI"
 WIFI_IP = "192.168.1.215" # ________________________ LOCAL WEB SERVER & 'data'
 PORT = 1234
-# __________________________________________________ LOCATION TIME ZONE
-useNTP = 1 # _______________________________________ try NTP to RTC update
-TZ_OFFSET = 7 # ____________________________________ LOCATION TIME ZONE

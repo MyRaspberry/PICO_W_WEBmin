@@ -41,7 +41,7 @@ DIAG = bool(os.getenv('DIAG')) # _________________________ change DIAG print in 
 if ( DIAG ) : print(Imp)
 del Imp # ________________________________________________ variable needed for boot only
 
-use_COLLECT = True
+useCOLLECT = bool(os.getenv('useCOLLECT'))
 
 THIS_REVISION = os.getenv('THIS_REVISION')
 THIS_OS = os.getenv('THIS_OS')
@@ -50,7 +50,7 @@ WIFI_PASSWORD = os.getenv('WIFI_PASSWORD')
 WIFI_IP = os.getenv('WIFI_IP')
 PORT = os.getenv('PORT')
 
-I_AM = f"!!! this is a PICO W with Circuit Python {THIS_OS}"
+I_AM = f" this is a PICO W with Circuit Python {THIS_OS} "
 print(I_AM)
 
 REFRESH = 30 # ___________________________________________ dynamic web pages might have a auto refresh
@@ -94,7 +94,7 @@ server = Server(pool, "/static") # _______________________ use later and use POR
 
 @server.route("/")
 def base(request: Request): # ____________________________ Serve a dynamic text message.
-    if use_COLLECT : gc.collect()
+    if useCOLLECT : gc.collect()
     return Response(request, HTML_INDEX.format(
                 REFRESH=REFRESH,
                 I_AM=I_AM,
@@ -105,7 +105,7 @@ def base(request: Request): # ____________________________ Serve a dynamic text 
 
 @server.route("/about")
 def about(request: Request): # ____________________________ Serve a static HTML file
-    if use_COLLECT : gc.collect()
+    if useCOLLECT : gc.collect()
     return FileResponse(request, "about.html") # __________ at /static/about.html
 
 print(f"www Listening on http://{str(wifi.radio.ipv4_address)}:{PORT} " )
@@ -113,7 +113,7 @@ print(f"www Listening on http://{str(wifi.radio.ipv4_address)}:{PORT} " )
 #server.serve_forever(str(wifi.radio.ipv4_address))
 server.start(host=str(wifi.radio.ipv4_address),port=PORT) # _ startup the server
 if DIAG : print(f"+ server.start {gc.mem_free()} ")
-if use_COLLECT : gc.collect()
+if useCOLLECT : gc.collect()
 
 check_last1 = time.monotonic() # _________________________ init CPU seconds in float
 dt1 = 1.0 # sec
@@ -132,13 +132,13 @@ while True:  # ___________________________________________ MAIN
             else:
                 print(f"\n{ret}")
                 if DIAG : print(f"free1: {gc.mem_free()}")
-            if use_COLLECT : gc.collect()
+            if useCOLLECT : gc.collect()
 
         if ( check_last2 + dt2 <= time.monotonic() ) : # ___ make non blocking 1 min timer loop
             check_last2 += dt2 # ___________________________ this does not add up timing errors
             print("job2") # ________________________________ the 1 min JOB
             if DIAG : print(f"free2: {gc.mem_free()}")
-            if use_COLLECT : gc.collect()
+            if useCOLLECT : gc.collect()
 
     except OSError:
         print("ERROR server poll")
