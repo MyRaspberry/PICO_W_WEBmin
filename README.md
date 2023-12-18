@@ -14,7 +14,7 @@ http://kll.byethost7.com/kllfusion01/infusions/articles/articles.php?article_id=
 * * static /static/about.html
 * * serve a favicon
 * simple styling example
-* use gc.mem_free to check
+* use gc.mem_free to check ( optional: gc.collect )
 * use a settings.toml
 * add a empty 1 min loop
 
